@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@lexical/link": "^0.14.2",
+    "@lexical/list": "^0.14.2"
+  }
+}

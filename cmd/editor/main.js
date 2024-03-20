@@ -1,47 +1,74 @@
 import './style.css'
-import {createEmptyHistoryState, registerHistory} from '@lexical/history';
-import {HeadingNode, QuoteNode, registerRichText} from '@lexical/rich-text';
+
 import {mergeRegister} from '@lexical/utils';
-import {createEditor} from 'lexical';
+import {
+    createEmptyHistoryState,
+    registerHistory
+} from '@lexical/history';
+import {
+    HeadingNode,
+    QuoteNode,
+    registerRichText,
+    $createHeadingNode,
+    $createQuoteNode
+} from '@lexical/rich-text';
+import {CodeNode} from '@lexical/code';
+import {ListNode, ListItemNode} from '@lexical/list';
+import {LinkNode} from '@lexical/link';
+import {
+    createEditor,
+    $createParagraphNode,
+    $createTextNode,
+    $getRoot
+} from 'lexical';
+import {
+    $convertFromMarkdownString,
+    $convertToMarkdownString,
+    registerMarkdownShortcuts,
+    TRANSFORMERS,
+} from '@lexical/markdown';
 
-import prepopulatedRichText from './prepopulatedRichText';
+function prepopulatedRichText() {
+  const root = $getRoot();
+  if (root.getFirstChild() !== null) {
+    return;
+  }
+  // root.append(paragraph);
+}
 
-document.querySelector('#editor').innerHTML = `
-  <div>
-    <h1>Lexical Basic - Vanilla JS</h1>
-    <div class="editor-wrapper">
-      <div id="lexical-editor" contenteditable></div>
-    </div>
-    <h4>Editor state:</h4>
-    <textarea id="lexical-state"></textarea>
-  </div>
-`;
-const editorRef = document.getElementById('lexical-editor');
-const stateRef = document.getElementById('lexical-state');
-
+const editorRef = document.getElementById('editor');
 const initialConfig = {
-  namespace: 'Vanilla JS Demo',
-  // Register nodes specific for @lexical/rich-text
-  nodes: [HeadingNode, QuoteNode],
-  onError: (error) => {
-    throw error;
-  },
-  theme: {
-    // Adding styling to Quote node, see styles.css
-    quote: 'PlaygroundEditorTheme__quote',
-  },
+    namespace: 'Editor',
+    nodes: [
+        HeadingNode,
+        QuoteNode,
+        CodeNode,
+        ListNode,
+        ListItemNode,
+        LinkNode,
+    ],
+    onError: (error) => {
+        throw error;
+    },
+    theme: {},
 };
 const editor = createEditor(initialConfig);
 editor.setRootElement(editorRef);
+registerMarkdownShortcuts(editor, TRANSFORMERS);
 
 // Registring Plugins
 mergeRegister(
-  registerRichText(editor),
-  registerHistory(editor, createEmptyHistoryState(), 300),
+    registerRichText(editor),
+    registerHistory(editor, createEmptyHistoryState(), 300),
 );
 
 editor.update(prepopulatedRichText, {tag: 'history-merge'});
 
 editor.registerUpdateListener(({editorState}) => {
-  stateRef.value = JSON.stringify(editorState.toJSON(), undefined, 2);
+    console.clear()
+    editorState.read(() => {
+        const markdown = $convertToMarkdownString(TRANSFORMERS);
+        console.log(markdown);
+    })
+    console.log(editorState.toJSON());
 });

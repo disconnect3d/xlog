@@ -13,8 +13,11 @@
   },
   "dependencies": {
     "@lexical/clipboard": "^0.14.2",
+    "@lexical/code": "^0.14.2",
     "@lexical/history": "^0.14.2",
+    "@lexical/markdown": "^0.14.2",
     "@lexical/rich-text": "^0.14.2",
+    "@lexical/selection": "0.14.2",
     "@lexical/utils": "^0.14.2",
     "lexical": "^0.14.2"
   }
