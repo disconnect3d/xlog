@@ -10,5 +10,12 @@
   },
   "devDependencies": {
     "vite": "^5.1.6"
+  },
+  "dependencies": {
+    "@lexical/clipboard": "^0.14.2",
+    "@lexical/history": "^0.14.2",
+    "@lexical/rich-text": "^0.14.2",
+    "@lexical/utils": "^0.14.2",
+    "lexical": "^0.14.2"
   }
 }

@@ -1,24 +1,47 @@
 import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import {createEmptyHistoryState, registerHistory} from '@lexical/history';
+import {HeadingNode, QuoteNode, registerRichText} from '@lexical/rich-text';
+import {mergeRegister} from '@lexical/utils';
+import {createEditor} from 'lexical';
 
-document.querySelector('#app').innerHTML = `
+import prepopulatedRichText from './prepopulatedRichText';
+
+document.querySelector('#editor').innerHTML = `
   <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
+    <h1>Lexical Basic - Vanilla JS</h1>
+    <div class="editor-wrapper">
+      <div id="lexical-editor" contenteditable></div>
     </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
+    <h4>Editor state:</h4>
+    <textarea id="lexical-state"></textarea>
   </div>
-`
+`;
+const editorRef = document.getElementById('lexical-editor');
+const stateRef = document.getElementById('lexical-state');
 
-setupCounter(document.querySelector('#counter'))
+const initialConfig = {
+  namespace: 'Vanilla JS Demo',
+  // Register nodes specific for @lexical/rich-text
+  nodes: [HeadingNode, QuoteNode],
+  onError: (error) => {
+    throw error;
+  },
+  theme: {
+    // Adding styling to Quote node, see styles.css
+    quote: 'PlaygroundEditorTheme__quote',
+  },
+};
+const editor = createEditor(initialConfig);
+editor.setRootElement(editorRef);
+
+// Registring Plugins
+mergeRegister(
+  registerRichText(editor),
+  registerHistory(editor, createEmptyHistoryState(), 300),
+);
+
+editor.update(prepopulatedRichText, {tag: 'history-merge'});
+
+editor.registerUpdateListener(({editorState}) => {
+  stateRef.value = JSON.stringify(editorState.toJSON(), undefined, 2);
+});
