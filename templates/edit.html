@@ -18,18 +18,18 @@
  const editor = document.getElementById("editor")
  const form = document.getElementById("editorForm")
 
- /* Editor(editor, "") */
+ Editor(editor, textarea.value)
 
  /* form.addEventListener("submit", syncEditor) */
 
- /* document.addEventListener('keydown', function(event) {
-  *     const e = event || window.event
+ document.addEventListener('keydown', function(event) {
+     const e = event || window.event
 
-  *     if ( e.key === 's' && (e.ctrlKey || e.metaKey ) ) {
-  *         e.preventDefault()
-  *         syncEditor()
-  *         form.submit()
-  *     }
-  * }) */
+     if ( e.key === 's' && (e.ctrlKey || e.metaKey ) ) {
+         e.preventDefault()
+         /* syncEditor()
+          * form.submit() */
+     }
+ })
 </script>
 {{ template "footer" . }}

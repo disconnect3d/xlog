@@ -9,8 +9,10 @@
 
     <script type="module" src="/editor.js"></script>
     <script type="module">
-     const editorRef = document.getElementById('editor');
-     Editor(editorRef, "# Hello there\n* This is a test\n\n---\n\n## another header\nsomething hereeeeee");
+     if( "%MODE%" == "development" ) {
+         const editorRef = document.getElementById('editor');
+         Editor(editorRef, "# Hello there\n* This is a test\n\n---\n\n## another header\nsomething hereeeeee");
+     }
     </script>
 
   </body>
