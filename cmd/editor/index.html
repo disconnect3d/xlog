@@ -2,11 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
     <div id="editor" contenteditable></div>
-    <script type="module" src="/main.js"></script>
+
+    <script type="module" src="/editor.js"></script>
+    <script type="module">
+     const editorRef = document.getElementById('editor');
+     Editor(editorRef, "# Hello there\n* This is a test\n\n---\n\n## another header\nsomething hereeeeee");
+    </script>
+
   </body>
 </html>
