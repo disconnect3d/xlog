@@ -186,7 +186,7 @@
   resolved "https://registry.yarnpkg.com/@lexical/selection/-/selection-0.14.2.tgz#39d6c0db233790eec81125653503e20deadc13a9"
   integrity sha512-M122XXGEiBgaxEhL63d+su0pPri67/GlFIwGC/j3D0TN4Giyt/j0ToHhqvlIF6TfuXlBusIYbSuJ19ny12lCEg==
 
-"@lexical/table@0.14.2":
+"@lexical/table@0.14.2", "@lexical/table@^0.14.2":
   version "0.14.2"
   resolved "https://registry.yarnpkg.com/@lexical/table/-/table-0.14.2.tgz#a28e0e24dfc8c43ac4ccf53dd33c1292969740d6"
   integrity sha512-iwsZ5AqkM7RGyU38daK0XgpC8DG0TlEqEYsXhOLjCpAERY/+bgfdjxP8YWtUV5eIgHX0yY7FkqCUZUJSEcbUeA==

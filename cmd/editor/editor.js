@@ -7,8 +7,6 @@ import {
     HeadingNode,
     QuoteNode,
     registerRichText,
-    $createHeadingNode,
-    $createQuoteNode
 } from '@lexical/rich-text';
 import {CodeNode} from '@lexical/code';
 import {ListNode, ListItemNode} from '@lexical/list';
@@ -25,6 +23,11 @@ import {
     registerMarkdownShortcuts,
     TRANSFORMERS,
 } from '@lexical/markdown';
+import {
+    TableNode,
+    TableCellNode,
+    TableRowNode,
+} from '@lexical/table';
 
 window.Editor = function(dom, markdown) {
     const editor = createEditor({
@@ -36,26 +39,29 @@ window.Editor = function(dom, markdown) {
             ListNode,
             ListItemNode,
             LinkNode,
+            TableNode,
+            TableCellNode,
+            TableRowNode,
         ],
         onError: (error) => { throw error }
     });
 
     editor.setRootElement(dom);
 
-    registerMarkdownShortcuts(editor, TRANSFORMERS);
     mergeRegister(
+        registerMarkdownShortcuts(editor, TRANSFORMERS),
         registerRichText(editor),
         registerHistory(editor, createEmptyHistoryState(), 300),
     );
 
     editor.update(() => $convertFromMarkdownString(markdown, TRANSFORMERS))
 
-    // editor.registerUpdateListener(({editorState}) => {
-    //     editorState.read(() => {
-    //         const markdown = $convertToMarkdownString(TRANSFORMERS);
-    //         console.log(markdown);
-    //     })
-    //     console.log(editorState.toJSON());
-    // });
+    editor.registerUpdateListener(({editorState}) => {
+        editorState.read(() => {
+            const markdown = $convertToMarkdownString(TRANSFORMERS);
+            console.log(markdown);
+        })
+        console.log(editorState.toJSON());
+    });
 
 }
